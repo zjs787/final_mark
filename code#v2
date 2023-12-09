@@ -1,0 +1,70 @@
+#include <vector>
+#include <iostream>
+#include <utility>
+#include <algorithm>
+
+
+bool sortbysec (const std::pair <int, double> &a, const std::pair <int, double> &b) {
+      return (a.second < b.second);
+    }
+
+int main() {
+
+    int num_judges;
+    std::vector<double>mark(num_judges);
+    std::vector< std::pair<int, double> > markPair;
+    
+
+    std::cout << "Enter number of judges: ";
+    std::cin >> num_judges;
+
+    while (num_judges < 4 || num_judges > 8) {
+      std::cout << "Invalid. Enter number of judges again (4 to 8): ";
+      std::cin >> num_judges;
+    }
+
+    for (int i = 0; i <= num_judges-1; i++) {
+      std::cout << "Enter mark for Judge " << i+1 << ": ";
+      std::cin >> mark[i];
+      while (mark[i] < 0.0 || mark[i] > 10.0) {
+        std::cout << "Invalid. Enter mark again (0.0 to 10.0): ";
+        std::cin >> mark[i];
+      }
+      markPair.push_back(std::make_pair(i+1, mark[i]));
+    }
+
+    /*
+
+    std::cout << "Score by judges: \n";
+    for (int i = 0; i < num_judges; i++) {
+      std::cout << markPair[i].first << " "
+                << markPair[i].second << std::endl;
+    }
+    
+  
+   */
+
+    std::sort(markPair.begin(), markPair.end(), sortbysec);
+
+    /*
+
+    std::cout << "Sort by score: \n"; 
+
+    for ( int i = 0; i < num_judges; i++) {
+      std::cout << markPair[i].first << " "
+                << markPair[i].second << std::endl;
+    }
+
+    */
+    
+    int d;
+    double final; 
+    std::cout << "Final mark: \n ";
+    for ( d = 1; d < num_judges; d++ ) { 
+      final += markPair[d].second;
+    }
+    double final_mark = (final - markPair[d-1].second) / (num_judges - 2);
+
+    printf("%.2f", final_mark);
+
+    }
